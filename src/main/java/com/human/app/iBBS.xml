@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.human.app.iBBS">
+
+	<insert id="doAddList">
+		insert into bbs(bbs_id, title, content, writer, passcode, created, updated)
+		values (seq_bbs_id.nextval, #{param1}, #{param2}, #{param3}, #{param4}, to_char(sysdate,'YYYY/MM/DD HH24:MI'), 
+		to_char(sysdate,'YYYY/MM/DD HH24:MI'))
+	</insert>
+	
+	<insert id="insertMember">
+		insert into member(name, loginid, passcode)
+		values (#{param1}, #{param2}, #{param3})
+	</insert>
+	
+	<select id="doCheckMember" resultType="int">
+		select count(*) from member where loginid=#{param1} and passcode=#{param2}
+	</select>
+	
+	<delete id="doDelList">
+		delete from bbs where bbs_id = #{param1}
+	</delete>
+	
+	<select id="doViewList" resultType="com.human.app.BBSrec">
+		 select bbs_id, title, content, writer, created, updated
+		 from bbs order by created desc
+	</select>
+	
+	<select id="getPost" resultType="com.human.app.BBSrec">
+		select bbs_id, title, content, writer, passcode, created, updated
+		from bbs where bbs_id = #{param1}
+	</select>
+	
+	<update id="doUpdateList">
+		update bbs set title = #{param2}, content = #{param3}, updated = to_char(sysdate,'YYYY/MM/DD HH24:MI') 
+		where bbs_id = #{param1}
+	</update>
+	
+	<insert id="">
+		insert into reply values(seq_reply_id)
+	</insert>
+	
+</mapper> 
